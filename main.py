@@ -14,7 +14,32 @@ load_dotenv("config.env")
 app = FastAPI(title="Railway Deployment Debugger", version="1.0.0")
 
 # Mount static files
+
+# Ensure static directory exists
+static_dir = "static"
+if not os.path.exists(static_dir):
+    os.makedirs(static_dir, exist_ok=True)
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Add a simple health check endpoint
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy", "message": "Railway Deployment Debugger is running"}
+
+# Debug endpoint to check static files
+@app.get("/debug/static")
+async def debug_static():
+    import os
+    static_dir = "static"
+    files = []
+    if os.path.exists(static_dir):
+        files = os.listdir(static_dir)
+    return {
+        "static_dir_exists": os.path.exists(static_dir),
+        "files": files,
+        "working_dir": os.getcwd()
+    }
 
 # Setup templates
 templates = Jinja2Templates(directory="templates")
@@ -129,4 +154,5 @@ async def analyze_logs(
     })
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
