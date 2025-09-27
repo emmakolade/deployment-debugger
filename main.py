@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 from log_parser import RailwayLogParser
 from ai_integration import DeepSeekAI
@@ -13,14 +14,12 @@ load_dotenv("config.env")
 
 app = FastAPI(title="Railway Deployment Debugger", version="1.0.0")
 
-# Mount static files
-
-# Ensure static directory exists
-static_dir = "static"
-if not os.path.exists(static_dir):
-    os.makedirs(static_dir, exist_ok=True)
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Mount static files using robust path resolution
+app.mount(
+    "/static",
+    StaticFiles(directory=Path(__file__).parent.absolute() / "static"),
+    name="static",
+)
 
 # Add a simple health check endpoint
 @app.get("/health")
@@ -30,19 +29,21 @@ async def health_check():
 # Debug endpoint to check static files
 @app.get("/debug/static")
 async def debug_static():
-    import os
-    static_dir = "static"
+    static_dir = Path(__file__).parent.absolute() / "static"
     files = []
-    if os.path.exists(static_dir):
-        files = os.listdir(static_dir)
+    if static_dir.exists():
+        files = list(static_dir.iterdir())
+        files = [f.name for f in files if f.is_file()]
     return {
-        "static_dir_exists": os.path.exists(static_dir),
+        "static_dir_path": str(static_dir),
+        "static_dir_exists": static_dir.exists(),
         "files": files,
-        "working_dir": os.getcwd()
+        "working_dir": os.getcwd(),
+        "main_file_path": __file__
     }
 
-# Setup templates
-templates = Jinja2Templates(directory="templates")
+# Setup templates using robust path resolution
+templates = Jinja2Templates(directory=Path(__file__).parent.absolute() / "templates")
 
 # Add custom filter for markdown formatting
 def markdown_to_html(text):
