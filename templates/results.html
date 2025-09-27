@@ -1,84 +1,83 @@
-{% extends "base.html" %}
-
-{% block title %}Analysis Results - Railway Deployment Debugger{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Analysis Results - Railway Deployment
+Debugger{% endblock %} {% block content %}
 <div class="results-container">
-    <div class="results-header">
-        <h2>Analysis Results</h2>
-        <a href="/" class="back-btn">
-            <span class="btn-icon">←</span>
-            Analyze New Logs
-        </a>
+  <div class="results-header">
+    <h2>Analysis Results</h2>
+    <a href="/" class="back-btn">
+      <span class="btn-icon">←</span>
+      Analyze New Logs
+    </a>
+  </div>
+
+  {% if analysis_results %}
+  <div class="summary">
+    <div class="summary-card">
+      <span class="summary-number">{{ analysis_results|length }}</span>
+      <span class="summary-label">Issues Found</span>
     </div>
-    
-    {% if analysis_results %}
-        <div class="summary">
-            <div class="summary-card">
-                <span class="summary-number">{{ analysis_results|length }}</span>
-                <span class="summary-label">Issues Found</span>
-            </div>
+  </div>
+
+  <div class="errors-section">
+    <h3>Detected Issues & Solutions</h3>
+    {% for result in analysis_results %}
+    <div class="error-card">
+      <div class="error-header">
+        <div class="error-type">
+          <span class="error-icon">
+            {% if result.error.severity == 'high' %}🔴 {% elif
+            result.error.severity == 'medium' %}🟡 {% else %}🟢{% endif %}
+          </span>
+          <span class="error-title">{{ result.error.error_type }}</span>
+          {% if result.source == 'ai_analysis' %}
+          <span class="ai-badge">🤖 AI Detected</span>
+          {% endif %}
         </div>
-        
-        <div class="errors-section">
-            <h3>Detected Issues & Solutions</h3>
-            {% for result in analysis_results %}
-            <div class="error-card">
-                <div class="error-header">
-                    <div class="error-type">
-                        <span class="error-icon">
-                            {% if result.error.severity == 'high' %}🔴
-                            {% elif result.error.severity == 'medium' %}🟡
-                            {% else %}🟢{% endif %}
-                        </span>
-                        <span class="error-title">{{ result.error.error_type }}</span>
-                        {% if result.source == 'ai_analysis' %}
-                        <span class="ai-badge">🤖 AI Detected</span>
-                        {% endif %}
-                    </div>
-                    <div class="error-severity severity-{{ result.error.severity }}">
-                        {{ result.error.severity|title }}
-                    </div>
-                </div>
-                
-                <div class="error-message">
-                    <strong>Error:</strong> {{ result.error.message }}
-                    {% if result.error.line_number %}
-                    <span class="line-number">(Line {{ result.error.line_number }})</span>
-                    {% endif %}
-                </div>
-                
-                <div class="suggestion">
-                    <div class="suggestion-header">
-                        <span class="suggestion-icon">💡</span>
-                        <span class="suggestion-title">AI-Powered Solution</span>
-                    </div>
-                    <div class="suggestion-content">
-                        {{ result.suggestion|replace('\n', '<br>')|safe }}
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+        <div class="error-severity severity-{{ result.error.severity }}">
+          {{ result.error.severity|title }}
         </div>
-    {% else %}
-        <div class="no-errors">
-            <div class="no-errors-icon">✅</div>
-            <h3>No Issues Detected!</h3>
-            <p>Great news! We didn't find any common Railway deployment errors in your logs.</p>
-            <p>If you're still experiencing issues, try:</p>
-            <ul>
-                <li>Checking Railway's status page</li>
-                <li>Reviewing your application logs more thoroughly</li>
-                <li>Contacting Railway support</li>
-            </ul>
+      </div>
+
+      <div class="error-message">
+        <strong>Error:</strong> {{ result.error.message }} {% if
+        result.error.line_number %}
+        <span class="line-number">(Line {{ result.error.line_number }})</span>
+        {% endif %}
+      </div>
+
+      <div class="suggestion">
+        <div class="suggestion-header">
+          <span class="suggestion-icon">💡</span>
+          <span class="suggestion-title">AI-Powered Solution</span>
         </div>
-    {% endif %}
-    
-    <div class="log-preview">
-        <h3>Log Preview</h3>
-        <div class="log-content">
-            <pre>{{ log_content }}</pre>
+        <div class="suggestion-content">
+          {{ result.suggestion|markdown|safe }}
         </div>
+      </div>
     </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="no-errors">
+    <div class="no-errors-icon">✅</div>
+    <h3>No Issues Detected!</h3>
+    <p>
+      Great news! We didn't find any common Railway deployment errors in your
+      logs.
+    </p>
+    <p>If you're still experiencing issues, try:</p>
+    <ul>
+      <li>Checking Railway's status page</li>
+      <li>Reviewing your application logs more thoroughly</li>
+      <li>Contacting Railway support</li>
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="log-preview">
+    <h3>Log Preview</h3>
+    <div class="log-content">
+      <pre>{{ log_content }}</pre>
+    </div>
+  </div>
 </div>
 {% endblock %}

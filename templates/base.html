@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Railway Deployment Debugger{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="container">
-        <header class="header">
-            <h1 class="logo">
-                <span class="logo-icon">🚂</span>
-                Railway Deployment Debugger
-            </h1>
-            <p class="tagline">Debug your Railway deployments with AI-powered insights</p>
-        </header>
-        
-        <main class="main">
-            {% block content %}{% endblock %}
-        </main>
-        
-        <footer class="footer">
-            <p>&copy; 2024 Railway Deployment Debugger. Built for Railway users.</p>
-        </footer>
+      <header class="header">
+        <h1 class="logo">
+          <img
+            src="{{ url_for('static', path='/railway.png') }}"
+            alt="Railway"
+            class="logo-icon"
+          />
+          Railway Deployment Debugger
+        </h1>
+        <p class="tagline">
+          Debug your Railway deployments with AI-powered insights
+        </p>
+      </header>
+
+      <main class="main">{% block content %}{% endblock %}</main>
+
+      <footer class="footer">
+        <p>&copy; 2024 Railway Deployment Debugger. Built for Railway users.</p>
+      </footer>
     </div>
-</body>
+  </body>
 </html>

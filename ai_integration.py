@@ -8,7 +8,7 @@ class DeepSeekAI:
     
     def __init__(self):
         self.api_key = os.getenv("DEEPSEEK_API_KEY")
-        self.base_url = "https://api.deepseek.com/v1"
+        self.base_url = "https://api.deepseek.com"
         self.model = "deepseek-chat"
         
         if not self.api_key:
@@ -42,6 +42,7 @@ class DeepSeekAI:
                                 "content": prompt
                             }
                         ],
+                        "stream": False,
                         "max_tokens": 500,
                         "temperature": 0.7
                     },
@@ -59,7 +60,7 @@ class DeepSeekAI:
             print(f"Error calling DeepSeek API: {e}")
             return self._get_fallback_suggestion(error)
     
-    async def analyze_logs_with_ai(self, log_content: str) -> List[Dict]:
+    async def analyze_logs_with_ai(self, log_content: str):
         """Use AI to analyze logs and detect errors that pattern matching might miss"""
         
         if not self.api_key:
@@ -112,6 +113,7 @@ If no errors are found, return an empty array [].
                                 "content": prompt
                             }
                         ],
+                        "stream": False,
                         "max_tokens": 1000,
                         "temperature": 0.3
                     },

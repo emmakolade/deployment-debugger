@@ -1,94 +1,221 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="form-container">
-    <div class="form-header">
-        <h2>Analyze Your Railway Logs</h2>
-        <p>Paste your Railway deployment logs below or upload a log file to get AI-powered debugging insights.</p>
+  <div class="form-header">
+    <h2>Analyze Your Railway Logs</h2>
+    <p>
+      Paste your Railway deployment logs below or upload a log file to get
+      AI-powered debugging insights.
+    </p>
+  </div>
+
+  {% if error %}
+  <div class="error-message">
+    <span class="error-icon">⚠️</span>
+    {{ error }}
+  </div>
+  {% endif %}
+
+  <form
+    action="/analyze"
+    method="post"
+    enctype="multipart/form-data"
+    class="log-form"
+  >
+    <div class="input-group">
+      <label for="log_text" class="input-label">Paste Logs Here</label>
+      <textarea
+        id="log_text"
+        name="log_text"
+        class="log-textarea"
+        placeholder="Paste your Railway deployment logs here..."
+        rows="12"
+      ></textarea>
     </div>
-    
-    {% if error %}
-    <div class="error-message">
-        <span class="error-icon">⚠️</span>
-        {{ error }}
+
+    <div class="divider">
+      <span>OR</span>
     </div>
-    {% endif %}
-    
-    <form action="/analyze" method="post" enctype="multipart/form-data" class="log-form">
-        <div class="input-group">
-            <label for="log_text" class="input-label">Paste Logs Here</label>
-            <textarea 
-                id="log_text" 
-                name="log_text" 
-                class="log-textarea" 
-                placeholder="Paste your Railway deployment logs here..."
-                rows="12"
-            ></textarea>
-        </div>
-        
-        <div class="divider">
-            <span>OR</span>
-        </div>
-        
-        <div class="input-group">
-            <label for="log_file" class="input-label">Upload Log File</label>
-            <div class="file-upload">
-                <input type="file" id="log_file" name="log_file" accept=".log,.txt" class="file-input">
-                <label for="log_file" class="file-label">
-                    <span class="file-icon">📁</span>
-                    Choose File
-                </label>
-                <span class="file-name">No file selected</span>
-            </div>
-        </div>
-        
-        <button type="submit" class="analyze-btn">
-            <span class="btn-icon">🔍</span>
-            Analyze Logs
-        </button>
-    </form>
-    
-    <div class="features">
-        <h3>What We Detect</h3>
-        <div class="feature-grid">
-            <div class="feature-item">
-                <span class="feature-icon">📦</span>
-                <span>Image Size Issues</span>
-            </div>
-            <div class="feature-item">
-                <span class="feature-icon">🔧</span>
-                <span>Environment Variables</span>
-            </div>
-            <div class="feature-item">
-                <span class="feature-icon">🔌</span>
-                <span>Port Binding Problems</span>
-            </div>
-            <div class="feature-item">
-                <span class="feature-icon">⏱️</span>
-                <span>Timeout Errors</span>
-            </div>
-            <div class="feature-item">
-                <span class="feature-icon">🏗️</span>
-                <span>Build Failures</span>
-            </div>
-            <div class="feature-item">
-                <span class="feature-icon">💾</span>
-                <span>Memory Issues</span>
-            </div>
-        </div>
+
+    <div class="input-group">
+      <label for="log_file" class="input-label">Upload Log File</label>
+      <div class="file-upload">
+        <input
+          type="file"
+          id="log_file"
+          name="log_file"
+          accept=".log,.txt"
+          class="file-input"
+        />
+        <label for="log_file" class="file-label">
+          <span class="file-icon">📁</span>
+          Choose File
+        </label>
+        <span class="file-name">No file selected</span>
+      </div>
     </div>
+
+    <button type="submit" class="analyze-btn" id="analyze-btn">
+      <span class="btn-icon">🔍</span>
+      <span class="btn-text">Analyze Logs</span>
+    </button>
+  </form>
+
+  <!-- Progress Bar -->
+  <div class="progress-container" id="progress-container" style="display: none">
+    <div class="progress-header">
+      <h3>Analyzing Your Logs</h3>
+      <p id="progress-text">Initializing analysis...</p>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="progress-steps">
+      <div class="step active" id="step-1">
+        <span class="step-icon">📝</span>
+        <span class="step-text">Parsing logs</span>
+      </div>
+      <div class="step" id="step-2">
+        <span class="step-icon">🔍</span>
+        <span class="step-text">Pattern matching</span>
+      </div>
+      <div class="step" id="step-3">
+        <span class="step-icon">🤖</span>
+        <span class="step-text">AI analysis</span>
+      </div>
+      <div class="step" id="step-4">
+        <span class="step-icon">💡</span>
+        <span class="step-text">Generating solutions</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <h3>What We Detect</h3>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <span class="feature-icon">📦</span>
+        <span>Image Size Issues</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔧</span>
+        <span>Environment Variables</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔌</span>
+        <span>Port Binding Problems</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⏱️</span>
+        <span>Timeout Errors</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🏗️</span>
+        <span>Build Failures</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">💾</span>
+        <span>Memory Issues</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-document.getElementById('log_file').addEventListener('change', function(e) {
-    const fileName = e.target.files[0]?.name || 'No file selected';
-    document.querySelector('.file-name').textContent = fileName;
-});
+  document.getElementById("log_file").addEventListener("change", function (e) {
+    const fileName = e.target.files[0]?.name || "No file selected";
+    document.querySelector(".file-name").textContent = fileName;
+  });
 
-// Auto-resize textarea
-document.getElementById('log_text').addEventListener('input', function() {
-    this.style.height = 'auto';
-    this.style.height = this.scrollHeight + 'px';
-});
+  // Auto-resize textarea
+  document.getElementById("log_text").addEventListener("input", function () {
+    this.style.height = "auto";
+    this.style.height = this.scrollHeight + "px";
+  });
+
+  // Progress bar functionality
+  document.querySelector(".log-form").addEventListener("submit", function (e) {
+    const logText = document.getElementById("log_text").value;
+    const logFile = document.getElementById("log_file").files[0];
+
+    // Only show progress if there's content to analyze
+    if (logText.trim() || logFile) {
+      showProgressBar();
+      startProgressAnimation();
+    }
+  });
+
+  function showProgressBar() {
+    const progressContainer = document.getElementById("progress-container");
+    const analyzeBtn = document.getElementById("analyze-btn");
+
+    // Hide the form and show progress
+    document.querySelector(".log-form").style.display = "none";
+    document.querySelector(".features").style.display = "none";
+    progressContainer.style.display = "block";
+
+    // Disable the button
+    analyzeBtn.disabled = true;
+    analyzeBtn.innerHTML =
+      '<span class="btn-icon">⏳</span><span class="btn-text">Analyzing...</span>';
+  }
+
+  function startProgressAnimation() {
+    const progressFill = document.getElementById("progress-fill");
+    const progressText = document.getElementById("progress-text");
+    const steps = document.querySelectorAll(".step");
+
+    const stepsData = [
+      { text: "Parsing logs and extracting content...", duration: 1000 },
+      { text: "Running pattern matching algorithms...", duration: 1500 },
+      { text: "Sending logs to AI for deep analysis...", duration: 2000 },
+      { text: "Generating personalized solutions...", duration: 1000 },
+    ];
+
+    let currentStep = 0;
+    let progress = 0;
+
+    function updateProgress() {
+      if (currentStep < stepsData.length) {
+        const stepData = stepsData[currentStep];
+        progressText.textContent = stepData.text;
+
+        // Update step visual
+        steps.forEach((step, index) => {
+          step.classList.remove("active", "completed");
+          if (index < currentStep) {
+            step.classList.add("completed");
+          } else if (index === currentStep) {
+            step.classList.add("active");
+          }
+        });
+
+        // Animate progress bar
+        const targetProgress = ((currentStep + 1) / stepsData.length) * 100;
+        const progressInterval = setInterval(() => {
+          progress += 2;
+          progressFill.style.width = Math.min(progress, targetProgress) + "%";
+
+          if (progress >= targetProgress) {
+            clearInterval(progressInterval);
+            currentStep++;
+            setTimeout(updateProgress, 200);
+          }
+        }, 50);
+      } else {
+        // Analysis complete
+        progressText.textContent =
+          "Analysis complete! Redirecting to results...";
+        progressFill.style.width = "100%";
+
+        // Mark all steps as completed
+        steps.forEach((step) => {
+          step.classList.remove("active");
+          step.classList.add("completed");
+        });
+      }
+    }
+
+    updateProgress();
+  }
 </script>
 {% endblock %}

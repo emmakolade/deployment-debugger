@@ -19,6 +19,39 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Setup templates
 templates = Jinja2Templates(directory="templates")
 
+# Add custom filter for markdown formatting
+def markdown_to_html(text):
+    """Convert basic markdown formatting to HTML"""
+    if not text:
+        return ""
+    
+    import re
+    
+    # Convert section headers that end with colon to bold
+    # Patterns like "Error Meaning:", "Step-by-Step Solution:", "Prevention Tips:", etc.
+    section_headers = [
+        "Error Meaning:", "Error Explanation:", "What this means:",
+        "Step-by-Step Solution:", "Solution:", "Fix:",
+        "Prevention Tips:", "Prevention:", "How to prevent:",
+        "Railway-Specific Config:", "Configuration:", "Config:",
+        "Common causes:", "Root cause:", "Why this happens:"
+    ]
+    
+    # Make section headers bold
+    for header in section_headers:
+        text = text.replace(header, f'<strong>{header}</strong>')
+    
+    # Convert **text** patterns to <strong>text</strong> (but only if they're not already processed)
+    text = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', text)
+    
+    # Convert newlines to <br>
+    text = text.replace('\n', '<br>')
+    
+    return text
+
+# Register the custom filter
+templates.env.filters["markdown"] = markdown_to_html
+
 # Initialize services
 log_parser = RailwayLogParser()
 ai_service = DeepSeekAI()
