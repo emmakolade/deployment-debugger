@@ -1,10 +1,11 @@
-# Railway Deployment Debugger
+# Railway Deployment Debugger (Next.js)
 
-A FastAPI-based web application that helps Railway users debug deployment issues by analyzing logs and providing AI-powered fix suggestions.
+A modern Next.js-based web application that helps Railway users debug deployment issues by analyzing logs and providing AI-powered fix suggestions.
 
 ## Features
 
 - **Log Analysis**: Detects common Railway deployment errors including:
+
   - Image size issues
   - Missing environment variables
   - Port binding problems
@@ -15,28 +16,40 @@ A FastAPI-based web application that helps Railway users debug deployment issues
   - Permission and network issues
 
 - **AI-Powered Solutions**: Uses DeepSeek AI to generate actionable fix suggestions
-- **Clean UI**: Modern, responsive interface built with HTML/CSS and Jinja2 templates
+- **Modern UI**: Beautiful, responsive interface built with Next.js, React, and Tailwind CSS
 - **File Upload Support**: Accept logs via text input or file upload
+- **Real-time Progress**: Animated progress indicators during analysis
+- **TypeScript**: Full type safety throughout the application
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **Styling**: Tailwind CSS
+- **AI Integration**: DeepSeek API
+- **File Handling**: FormData API with multipart support
 
 ## Setup
 
 1. **Install Dependencies**
+
    ```bash
-   pip install -r requirements.txt
+   npm install
    ```
 
 2. **Configure Environment**
+
    ```bash
-   cp env.example .env
-   # Edit .env and add your DeepSeek API key
+   cp env.example .env.local
+   # Edit .env.local and add your DeepSeek API key
    ```
 
 3. **Run the Application**
+
    ```bash
-   python main.py
+   npm run dev
    ```
 
-   The app will be available at `http://localhost:8000`
+   The app will be available at `http://localhost:3000`
 
 ## Usage
 
@@ -47,7 +60,7 @@ A FastAPI-based web application that helps Railway users debug deployment issues
 ## API Endpoints
 
 - `GET /` - Homepage with log input form
-- `POST /analyze` - Process logs and return analysis results
+- `POST /api/analyze` - Process logs and return analysis results
 
 ## Configuration
 
@@ -57,7 +70,7 @@ To enable AI-powered suggestions, you need a DeepSeek API key:
 
 1. Sign up at [DeepSeek](https://platform.deepseek.com/)
 2. Get your API key
-3. Add it to your `.env` file:
+3. Add it to your `.env.local` file:
    ```
    DEEPSEEK_API_KEY=your_api_key_here
    ```
@@ -67,18 +80,28 @@ Without an API key, the app will still work but will show fallback suggestions i
 ## Project Structure
 
 ```
-railway3/
-├── main.py              # FastAPI application
-├── log_parser.py        # Log parsing logic
-├── ai_integration.py    # DeepSeek AI integration
-├── requirements.txt     # Python dependencies
-├── env.example         # Environment variables template
-├── templates/          # Jinja2 HTML templates
-│   ├── base.html
-│   ├── index.html
-│   └── results.html
-└── static/            # CSS and static files
-    └── style.css
+railway-debugger-nextjs/
+├── src/
+│   ├── app/                 # Next.js App Router
+│   │   ├── api/            # API routes
+│   │   │   └── analyze/    # Log analysis endpoint
+│   │   ├── results/        # Results page
+│   │   ├── globals.css     # Global styles
+│   │   ├── layout.tsx      # Root layout
+│   │   └── page.tsx        # Homepage
+│   ├── components/         # React components
+│   │   ├── LogAnalyzer.tsx # Main form component
+│   │   └── ResultsDisplay.tsx # Results display
+│   ├── lib/               # Utility libraries
+│   │   ├── logParser.ts   # Log parsing logic
+│   │   └── aiIntegration.ts # AI integration
+│   └── types/             # TypeScript types
+│       └── index.ts       # Type definitions
+├── public/                # Static assets
+├── package.json          # Dependencies
+├── tailwind.config.js    # Tailwind configuration
+├── tsconfig.json         # TypeScript configuration
+└── next.config.js        # Next.js configuration
 ```
 
 ## Error Detection
@@ -95,6 +118,46 @@ The parser detects these common Railway errors:
 - **Dependency Error**: Missing packages or modules
 - **Permission Error**: File permission issues
 - **Network Error**: Connection and network problems
+
+## Development
+
+```bash
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run linting
+npm run lint
+```
+
+## Deployment
+
+The application can be deployed to any platform that supports Next.js:
+
+- **Vercel** (recommended)
+- **Railway**
+- **Netlify**
+- **Docker**
+
+For Railway deployment, create a `railway.json` file:
+
+```json
+{
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "npm start",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}
+```
 
 ## Contributing
 
