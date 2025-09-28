@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const lato = Lato({
+  subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
+});
 
 export const metadata: Metadata = {
   title: "Railway Deployment Debugger",
@@ -21,19 +24,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={lato.className}>
         <div className="min-h-screen bg-gradient-to-br from-primary-500 via-primary-600 to-primary-800">
           <div className="container max-w-6xl mx-auto px-5 py-5 min-h-screen flex flex-col">
             {/* Header */}
             <header className="text-center mb-10 text-white">
-              <div className="logo text-4xl font-bold mb-3 flex items-center justify-center gap-4">
+              <a
+                href="/"
+                className="logo text-4xl font-bold mb-3 flex items-center justify-center gap-4 hover:opacity-80 transition-opacity no-underline"
+              >
                 <img
                   src="/railway.png"
                   alt="Railway Logo"
                   className="h-12 w-auto object-contain"
                 />
                 Railway Deployment Debugger
-              </div>
+              </a>
               <p className="text-lg opacity-90 font-light">
                 AI-powered log analysis for Railway deployments
               </p>
@@ -46,9 +52,7 @@ export default function RootLayout({
 
             {/* Footer */}
             <footer className="text-center py-5 text-white opacity-80 text-sm">
-              <p>
-                &copy; 2025 Railway Deployment Debugger
-              </p>
+              <p>&copy; 2025 Railway Deployment Debugger</p>
             </footer>
           </div>
         </div>
