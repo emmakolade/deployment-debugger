@@ -117,7 +117,7 @@ export default function ResultsDisplay({
                   </div>
                 </div>
 
-                <div className="error-message bg-white p-4 rounded-lg mb-5 font-mono text-sm leading-relaxed border border-gray-200 text-black">
+                <div className="error-message bg-white p-4 rounded-lg mb-5 font-mono text-sm leading-relaxed border border-gray-200 text-red-700">
                   <strong>Error:</strong> {result.error.message}
                   {result.error.line_number && (
                     <span className="text-black text-sm ml-2">
