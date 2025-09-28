@@ -54,8 +54,8 @@ export class DeepSeekAI {
         console.error(`DeepSeek API error: ${response.status}`);
         return this.getFallbackSuggestion(error);
       }
-    } catch (error) {
-      console.error("Error calling DeepSeek API:", error);
+    } catch (caughtError) {
+      console.error("Error calling DeepSeek API:", caughtError);
       return this.getFallbackSuggestion(error);
     }
   }
