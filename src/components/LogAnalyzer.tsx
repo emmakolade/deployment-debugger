@@ -73,10 +73,10 @@ export default function LogAnalyzer({ onAnalyze }: LogAnalyzerProps) {
   return (
     <div className="form-container">
       <div className="form-header">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-3">
+        <h2 className="text-3xl font-semibold text-black mb-3">
           Analyze Your Railway Logs
         </h2>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-black">
           Paste your Railway deployment logs below or upload a log file to get
           AI-powered debugging insights.
         </p>
@@ -93,7 +93,7 @@ export default function LogAnalyzer({ onAnalyze }: LogAnalyzerProps) {
         <div className="input-group mb-8">
           <label
             htmlFor="log_text"
-            className="block text-sm font-medium text-gray-800 mb-3"
+            className="block text-sm font-medium text-black mb-3"
           >
             Paste Logs Here
           </label>
@@ -108,7 +108,7 @@ export default function LogAnalyzer({ onAnalyze }: LogAnalyzerProps) {
           />
         </div>
 
-        <div className="divider text-center my-8 relative text-gray-500 font-medium">
+        <div className="divider text-center my-8 relative text-black font-medium">
           <span className="bg-white px-5 relative z-10">OR</span>
           <div className="absolute top-1/2 left-0 right-0 h-px bg-gray-200 z-0"></div>
         </div>
@@ -116,7 +116,7 @@ export default function LogAnalyzer({ onAnalyze }: LogAnalyzerProps) {
         <div className="input-group mb-8">
           <label
             htmlFor="log_file"
-            className="block text-sm font-medium text-gray-800 mb-3"
+            className="block text-sm font-medium text-black mb-3"
           >
             Upload Log File
           </label>
@@ -131,19 +131,19 @@ export default function LogAnalyzer({ onAnalyze }: LogAnalyzerProps) {
             />
             <label
               htmlFor="log_file"
-              className="flex items-center gap-3 px-6 py-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer transition-all hover:bg-gray-100 hover:border-gray-400 font-medium text-gray-700"
+              className="flex items-center gap-3 px-6 py-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer transition-all hover:bg-gray-100 hover:border-gray-400 font-medium text-black"
             >
               <span className="text-xl">📁</span>
               Choose File
             </label>
-            <span className="text-gray-500 italic">{fileName}</span>
+            <span className="text-black italic">{fileName}</span>
           </div>
         </div>
 
         <button
           type="submit"
           disabled={isAnalyzing}
-          className="w-full bg-gradient-to-r from-primary-500 to-primary-700 text-white border-none py-5 px-8 rounded-xl text-lg font-semibold cursor-pointer transition-all hover:transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary-300/30 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+          className="w-full bg-gradient-to-r from-primary-500 to-primary-700 text-black border-none py-5 px-8 rounded-xl text-lg font-semibold cursor-pointer transition-all hover:transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary-300/30 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
         >
           <span className="text-xl">{isAnalyzing ? "⏳" : "🔍"}</span>
           <span>{isAnalyzing ? "Analyzing..." : "Analyze Logs"}</span>
@@ -153,10 +153,10 @@ export default function LogAnalyzer({ onAnalyze }: LogAnalyzerProps) {
       {isAnalyzing && (
         <div className="progress-container bg-white rounded-2xl p-10 mt-5 shadow-xl text-center">
           <div className="progress-header">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+            <h3 className="text-2xl font-semibold text-black mb-3">
               Analyzing Your Logs
             </h3>
-            <p className="text-lg text-gray-600 mb-8">
+            <p className="text-lg text-black mb-8">
               Processing your logs with AI-powered analysis...
             </p>
           </div>
@@ -164,7 +164,7 @@ export default function LogAnalyzer({ onAnalyze }: LogAnalyzerProps) {
             <div className="progress-fill h-full bg-gradient-to-r from-primary-500 to-primary-700 rounded-full w-0 animate-pulse"></div>
           </div>
           <div className="progress-steps grid grid-cols-1 md:grid-cols-4 gap-5">
-            <div className="step flex flex-col items-center p-5 rounded-xl bg-gray-50 border-2 border-primary-500 text-white bg-gradient-to-r from-primary-500 to-primary-700">
+            <div className="step flex flex-col items-center p-5 rounded-xl bg-gray-50 border-2 border-primary-500 text-black bg-gradient-to-r from-primary-500 to-primary-700">
               <span className="text-2xl mb-3">📝</span>
               <span className="font-medium text-sm text-center">
                 Parsing logs
@@ -193,31 +193,31 @@ export default function LogAnalyzer({ onAnalyze }: LogAnalyzerProps) {
       )}
 
       <div className="features mt-10 pt-10 border-t border-gray-200">
-        <h3 className="text-center text-2xl font-semibold text-gray-800 mb-8">
+        <h3 className="text-center text-2xl font-semibold text-black mb-8">
           What We Detect
         </h3>
         <div className="feature-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-gray-700">
+          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-black">
             <span className="text-2xl">📦</span>
             <span>Image Size Issues</span>
           </div>
-          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-gray-700">
+          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-black">
             <span className="text-2xl">🔧</span>
             <span>Environment Variables</span>
           </div>
-          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-gray-700">
+          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-black">
             <span className="text-2xl">🔌</span>
             <span>Port Binding Problems</span>
           </div>
-          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-gray-700">
+          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-black">
             <span className="text-2xl">⏱️</span>
             <span>Timeout Errors</span>
           </div>
-          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-gray-700">
+          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-black">
             <span className="text-2xl">🏗️</span>
             <span>Build Failures</span>
           </div>
-          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-gray-700">
+          <div className="feature-item flex items-center gap-3 p-4 bg-gray-50 rounded-xl font-medium text-black">
             <span className="text-2xl">💾</span>
             <span>Memory Issues</span>
           </div>

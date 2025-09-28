@@ -47,8 +47,7 @@ export default function RootLayout({
             {/* Footer */}
             <footer className="text-center py-5 text-white opacity-80 text-sm">
               <p>
-                &copy; 2024 Railway Deployment Debugger. Built with Next.js and
-                AI.
+                &copy; 2025 Railway Deployment Debugger
               </p>
             </footer>
           </div>

@@ -1,4 +1,4 @@
 {
   "/page": "app/page.js",
-  "/icon/[[...__metadata_id__]]/route": "app/icon/[[...__metadata_id__]]/route.js"
+  "/results/page": "app/results/page.js"
 }
